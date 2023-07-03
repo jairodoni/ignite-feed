@@ -4,9 +4,17 @@ import { Comment } from '../Comment';
 import ptBR from 'date-fns/locale/pt-BR'
 
 import styles from './styles.module.css'
+import { useState } from 'react';
+
+
 
 {/* eslint-disable-next-line */ }
 export function Post({ key, author, content, publishedAt }) {
+  const [comments, setComments] = useState([
+    "Post muito bacana, hein? 👏👏"
+  ])
+  const [newCommentText, setNewCommentText] = useState('')
+
   const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR,
   })
@@ -14,6 +22,14 @@ export function Post({ key, author, content, publishedAt }) {
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     locale: ptBR
   })
+
+  function handleCreateNewComment(event) {
+    event.preventDefault()
+
+    setComments([...comments, newCommentText])
+    setNewCommentText('')
+  }
+
   return (
     <article key={key} className={styles.post}>
       <header>
@@ -40,30 +56,24 @@ export function Post({ key, author, content, publishedAt }) {
             return <p><a href='#'>{line.content}</a></p>
           }
         })}
-        {/* <p>Fala galeraa 👋</p>
-        <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>
-        <p>👉{' '}<a href="#">jane.design/doctorcare</a></p>
-        <p>
-
-          <a href="#">#novoprojeto </a>{' '}
-          <a href="#">#nlw </a>{' '}
-          <a href="#">#rocketseat</a>
-        </p> */}
       </div>
 
-      <form className={styles.commentForm}>
+      <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
         <textarea
+          name="comment"
           placeholder='Deixe um comentario'
+          value={newCommentText}
+          onChange={event => setNewCommentText(event.target.value)}
         />
         <footer>
           <button type="submit">Publicar</button>
         </footer>
       </form>
       <div className={styles.commentList}>
-        <Comment />
-        <Comment />
-        <Comment />
+        {comments.map(comment => {
+          return <Comment content={comment} />
+        })}
       </div>
     </article>
   );
