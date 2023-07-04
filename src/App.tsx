@@ -1,12 +1,13 @@
 import { Header } from './components/Header'
-import { Post } from './components/Post'
 import { Sidebar } from './components/Sidebar'
+import { Post } from './components/Post'
+import { PostType } from './global/types'
 
 import './global.css'
 import styles from './App.module.css'
 
 {/* eslint-disable-next-line */ }
-const post = [
+const posts: PostType[] = [
   {
     id: 1,
     author: {
@@ -59,13 +60,11 @@ function App() {
       <div className={styles.wrapper}>
         <Sidebar />
         <main>
-          {post.map(post => {
+          {posts.map(post => {
             return (
               <Post
                 key={post.id}
-                author={post.author}
-                content={post.content}
-                publishedAt={post.publishedAt}
+                post={post}
               />
             )
           })}
