@@ -3,7 +3,7 @@ import { Sidebar } from './components/Sidebar'
 import { Post } from './components/Post'
 import { PostType } from './global/types'
 
-import './global.css'
+import './global/global.css'
 import styles from './App.module.css'
 
 {/* eslint-disable-next-line */ }
